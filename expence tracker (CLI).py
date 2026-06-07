@@ -19,8 +19,14 @@ def expence_tracker():
             print("thank you for using expence tracker")
             break
     print(f"your total expence is {sum('ammount')}")
-       
+
+
+def view_expenses():
+    print("your expences are :")
+    for expence in store:
+        print(f"{expence['description']} : {expence['ammount']}")
 
 
 expence_tracker()
+view_expenses()
 print(store)
