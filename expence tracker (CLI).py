@@ -1,30 +1,37 @@
+import json
+import os
+
 store = []
 
-def expence_tracker():
+def expense_tracker():
     while True:
-        user_expense= float(input(" amount you spend "))
-        description = input("describe , where u spend  ")
+        try:
+            user_expense = float(input("Enter the amount you spent: "))
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+            continue
+        description = input("Describe where you spent the money: ")
         store.append({
-            "ammount":user_expense,
-            "description":description
+            "amount": user_expense,
+            "description": description
         })
         
         another = input("do you want to add another expence? (yes/no) ").strip().lower()
         if another == 'yes':
             pass
-        elif another == "no":             # there is no need to check for "no" because if it's not "yes" it will automatically go to the else block, but i added it for better readability
+        elif another == "no":    # there is no need to check for "no" because if it's not "yes" it will automatically go to the else block, but i added it for better readability
             print("thank you for using expence tracker") 
             break
         else:
             print("thank you for using expence tracker")
             break
-    print(f"your total expence is {sum(expense['ammount'] for expense in store)}")  # 
-    
+    print(f"your total expence is {sum(expense['amount'] for expense in store)}")  # 
+    save_data()
 
 def view_expenses(): 
     print("your expences are :")
     for expense in store:
-        print(f"{expense['description']} : {expense['ammount']}")
+        print(f"{expense['description']} : {expense['amount']}")
 
 
 def delete_expenses():
@@ -32,7 +39,7 @@ def delete_expenses():
     description_to_delete = input("enter the description of the expense you want to delete: ")
     deletation = None
     for expense in store:
-        if expense['description'] == description_to_delete:
+        if expense['description'].strip().lower() == description_to_delete.strip().lower():
             deletation = expense
             break
     if deletation:
@@ -40,12 +47,13 @@ def delete_expenses():
         print("expense deleted successfully.")
     else:
         print("expense not found.")
+    save_data()
 
 # def show_total_expenses():
 #     total_amount = 0
 #     for expences in store:
-#         if expences['ammount']:
-#             total_amount += expences['ammount']
+#         if expences['amount']:
+#             total_amount += expences['amount']
 #     print(f"Total expenses: {total_amount}")
             
 
@@ -53,7 +61,7 @@ def show_total_expenses():
     total_amount = 0
 
     for expense in store:
-        total_amount += expense['ammount']
+        total_amount += expense['amount']
 
     print(f"Total expenses: {total_amount}")
 
@@ -61,27 +69,40 @@ def show_total_expenses():
 #     total = sum(expense['amount'] for expense in store)
 #     print(f"Total expenses: {total}")
  
-
-
-# expence_tracker()
+# expense_tracker()
 # view_expenses()
 # delete_expenses()
 # show_total_expenses()
 # print(store)
 
+
+def save_data():
+    with open("storage.json", "w") as f:
+        json.dump(store, f)
+
+
+def load_data():
+    try:
+        with open("storage.json", "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
 def main():
     while True:
-        print("\nExpense Tracker Menu:")
-        print("1. Add Expense")
-        print("2. View Expenses")
-        print("3. Delete Expense")
-        print("4. Show Total Expenses")
-        print("5. Exit")
+        
+        
+        print(". Expense Tracker Menu:")
+        print(". Add Expense")
+        print(". View Expenses")
+        print(". Delete Expense")
+        print(". Show Total Expenses")
+        print(". Exit")
 
         choice = input("Enter your choice (1-5): ")
 
         if choice == '1':
-            expence_tracker()
+            expense_tracker()
         elif choice == '2':
             view_expenses()
         elif choice == '3':
@@ -94,6 +115,7 @@ def main():
         else:
             print("Invalid choice. Please enter a number between 1 and 5.")
 
+store = load_data()
+if __name__ == "__main__": main()
 
-main()
 
