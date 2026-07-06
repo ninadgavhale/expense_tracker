@@ -1,5 +1,4 @@
 import json
-import os
 
 store = []
 
@@ -19,7 +18,7 @@ def expense_tracker():
         another = input("do you want to add another expence? (yes/no) ").strip().lower()
         if another == 'yes':
             pass
-        elif another == "no":    # there is no need to check for "no" because if it's not "yes" it will automatically go to the else block, but i added it for better readability
+        elif another == "no":  
             print("thank you for using expence tracker") 
             break
         else:
@@ -48,13 +47,6 @@ def delete_expenses():
     else:
         print("expense not found.")
     save_data()
-
-# def show_total_expenses():
-#     total_amount = 0
-#     for expences in store:
-#         if expences['amount']:
-#             total_amount += expences['amount']
-#     print(f"Total expenses: {total_amount}")
             
 
 def show_total_expenses():
@@ -64,16 +56,6 @@ def show_total_expenses():
         total_amount += expense['amount']
 
     print(f"Total expenses: {total_amount}")
-
-# def show_total():
-#     total = sum(expense['amount'] for expense in store)
-#     print(f"Total expenses: {total}")
- 
-# expense_tracker()
-# view_expenses()
-# delete_expenses()
-# show_total_expenses()
-# print(store)
 
 
 def save_data():
@@ -117,5 +99,6 @@ def main():
 
 store = load_data()
 if __name__ == "__main__": main()
+
 
 
